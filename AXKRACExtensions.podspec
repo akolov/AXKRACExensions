@@ -21,13 +21,13 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'AFNetworking' do |afn|
-    afn.source_files = 'Classes/AF*.h,m'
+    afn.source_files = 'Classes/AF*'
     afn.requires_arc = true
     afn.dependency 'AFNetworking', '~> 1.0'
   end
   
   s.subspec 'RestKit' do |rk|
-    rk.source_files = 'Classes/RK*.h,m'
+    rk.source_files = 'Classes/RK*'
     rk.requires_arc = true
     rk.dependency 'RestKit'
   end
