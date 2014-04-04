@@ -16,18 +16,18 @@ Pod::Spec.new do |s|
   # Subspecs
 
   s.subspec 'Core' do |cs|
-    cs.source_files = 'Core'
+    cs.source_files = 'Classes/NSNotificationCenter+AXKRACExtensions.h'
     cs.requires_arc = true
   end
 
   s.subspec 'AFNetworking' do |afn|
-    afn.source_files = 'AFNetworking'
+    afn.source_files = 'Classes/AF*.h,m'
     afn.requires_arc = true
-    afn.dependency 'AFNetworking'
+    afn.dependency 'AFNetworking', '~> 1.0'
   end
   
   s.subspec 'RestKit' do |rk|
-    rk.source_files = 'RestKit'
+    rk.source_files = 'Classes/RK*.h,m'
     rk.requires_arc = true
     rk.dependency 'RestKit'
   end
