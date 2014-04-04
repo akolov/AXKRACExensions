@@ -5,8 +5,9 @@ Pod::Spec.new do |s|
   s.homepage        = 'https://github.com/silverity/AXKRACExtensions'
   s.license         = 'MIT'
   s.author          = { 'Alexander Kolov' => 'me@alexkolov.com' }
-  s.source          = { :git => 'https://github/com/silverity/AXKRACExtensions', :tag => s.version.to_s }
+  s.source          = { :git => 'https://github.com/silverity/AXKRACExensions.git', :tag => s.version.to_s }
   s.platform        = :ios
+  s.ios.deployment_target = '7.0'
   s.requires_arc    = true
   
   # Exclude optional modules
