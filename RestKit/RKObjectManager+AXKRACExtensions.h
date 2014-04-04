@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Alexander Kolov. All rights reserved.
 //
 
-#import "RKObjectManager.h"
+#import <RestKit/RKObjectManager.h>
 
 @class RACSignal;
 
