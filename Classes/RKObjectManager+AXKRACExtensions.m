@@ -37,6 +37,8 @@
   return [self rac_requestObject:object path:path parameters:parameters method:RKRequestMethodDELETE];
 }
 
+
+
 - (RACSignal *)rac_requestObject:(id)object path:(NSString *)path parameters:(NSDictionary *)parameters
                           method:(RKRequestMethod)method {
   NSAssert(object || path, @"Cannot make a request without an object or a path.");
@@ -61,6 +63,30 @@
       [operation cancel];
     }];
   }];
+}
+
+- (RACSignal *)rac_getObjectsAtPathForRelationship:(NSString *)relationshipName
+                                          ofObject:(id)object
+                                        parameters:(NSDictionary *)parameters{
+
+  
+  NSAssert(object || relationshipName, @"Cannot make a request without an object or a relationshipName.");
+  
+  return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+    [[RKObjectManager sharedManager]
+     getObjectsAtPathForRelationship:relationshipName
+     ofObject:object
+     parameters:parameters
+     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+       [subscriber sendNext:RACTuplePack(operation, mappingResult)];
+       [subscriber sendCompleted];
+     }
+     failure:^(RKObjectRequestOperation *operation, NSError *error) {
+       [subscriber sendError:error];
+     }];
+    return nil;
+  }];
+
 }
 
 @end
