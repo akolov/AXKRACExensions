@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Alexander Kolov. All rights reserved.
 //
 
-#import <RestKit/Network/RKObjectManager.h>
+#import <RestKit/RestKit.h>
 
 @class RACSignal;
 
@@ -21,5 +21,9 @@
 
 - (RACSignal *)rac_requestObject:(id)object path:(NSString *)path parameters:(NSDictionary *)parameters
                           method:(RKRequestMethod)method;
+
+- (RACSignal *)rac_getObjectsAtPathForRelationship:(NSString *)relationshipName
+                                          ofObject:(id)object
+                                        parameters:(NSDictionary *)parameters;
 
 @end

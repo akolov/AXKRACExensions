@@ -1,0 +1,53 @@
+PODS:
+  - AFNetworking (1.3.4)
+  - ISO8601DateFormatterValueTransformer (0.6.0):
+    - RKValueTransformers (~> 1.1.0)
+  - ReactiveCocoa (2.3.1):
+    - ReactiveCocoa/UI
+  - ReactiveCocoa/Core (2.3.1):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.3.1)
+  - ReactiveCocoa/UI (2.3.1):
+    - ReactiveCocoa/Core
+  - RestKit (0.23.1):
+    - RestKit/Core
+  - RestKit/Core (0.23.1):
+    - RestKit/CoreData
+    - RestKit/Network
+    - RestKit/ObjectMapping
+  - RestKit/CoreData (0.23.1):
+    - RestKit/ObjectMapping
+  - RestKit/Network (0.23.1):
+    - AFNetworking (~> 1.3.0)
+    - RestKit/ObjectMapping
+    - RestKit/Support
+    - SOCKit
+  - RestKit/ObjectMapping (0.23.1):
+    - ISO8601DateFormatterValueTransformer (~> 0.6.0)
+    - RestKit/Support
+    - RKValueTransformers (~> 1.1.0)
+  - RestKit/Support (0.23.1):
+    - TransitionKit (= 2.1.0)
+  - RKValueTransformers (1.1.0)
+  - SOCKit (1.1)
+  - TransitionKit (2.1.0)
+
+DEPENDENCIES:
+  - ReactiveCocoa (~> 2.3)
+  - RestKit (from `https://github.com/silverity/RestKit.git`, branch `development-upstream`)
+
+EXTERNAL SOURCES:
+  RestKit:
+    :branch: development-upstream
+    :git: https://github.com/silverity/RestKit.git
+
+SPEC CHECKSUMS:
+  AFNetworking: 80c4e0652b08eb34e25b9c0ff3c82556fe5967b4
+  ISO8601DateFormatterValueTransformer: a705384ea6531255258e25b6480ba1180db703a0
+  ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
+  RestKit: 83a7f82ae7c92c51b59717325a0b895749ff2c97
+  RKValueTransformers: b705e7b4651b9206b94600408462b74554bba969
+  SOCKit: d8d0dd3688ae1026c12367570da8fa8e1a6980fb
+  TransitionKit: 6a6f3ddda38ae758778aa889dcb930e4f8d64edc
+
+COCOAPODS: 0.33.1
