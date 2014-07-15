@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name            = 'AXKRACExtensions'
-  s.version         = '1.0.1'
+  s.version         = '1.0.2'
   s.summary         = 'ReactiveCocoa extensions'
   s.homepage        = 'https://github.com/silverity/AXKRACExensions'
   s.license         = 'MIT'
@@ -25,13 +25,13 @@ Pod::Spec.new do |s|
     afn.requires_arc = true
     afn.dependency 'AFNetworking', '~> 1.0'
   end
-  
+
   s.subspec 'RestKit' do |rk|
     rk.source_files = 'Classes/RK*'
     rk.requires_arc = true
     rk.dependency 'RestKit'
   end
-  
+
   s.prefix_header_contents = <<-EOS
 @import Darwin.Availability;
 @import Security;
