@@ -11,7 +11,15 @@
 #import <ReactiveCocoa/RACEXTScope.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
+@interface RKObjectManager (AXKRACExtensionsInternalMethods)
+
+- (NSURL *)URLWithRoute:(RKRoute *)route object:(id)object interpolatedParameters:(NSDictionary **)interpolatedParameters;
+
+@end
+
 @implementation RKObjectManager (AXKRACExtensions)
+
+
 
 - (RACSignal *)rac_getObjectsAtPath:(NSString *)path parameters:(NSDictionary *)parameters {
   return [self rac_requestObject:nil path:path parameters:parameters method:RKRequestMethodGET];
@@ -65,28 +73,37 @@
   }];
 }
 
+
 - (RACSignal *)rac_getObjectsAtPathForRelationship:(NSString *)relationshipName
                                           ofObject:(id)object
                                         parameters:(NSDictionary *)parameters{
-
   
   NSAssert(object || relationshipName, @"Cannot make a request without an object or a relationshipName.");
-  
-  return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-    [[RKObjectManager sharedManager]
-     getObjectsAtPathForRelationship:relationshipName
-     ofObject:object
-     parameters:parameters
-     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-       [subscriber sendNext:RACTuplePack(operation, mappingResult)];
-       [subscriber sendCompleted];
-     }
-     failure:^(RKObjectRequestOperation *operation, NSError *error) {
-       [subscriber sendError:error];
-     }];
-    return nil;
-  }];
 
+  @weakify(self);
+  return [RACSignal createSignal:^(id<RACSubscriber> subscriber) {
+    @strongify(self);
+    
+    RKRoute *route = [self.router.routeSet routeForRelationship:relationshipName ofClass:[object class] method:RKRequestMethodGET];
+    NSDictionary *interpolatedParameters = nil;
+    NSURL *URL = [self URLWithRoute:route object:object interpolatedParameters:&interpolatedParameters];
+    NSAssert(URL, @"Failed to generate URL for relationship named '%@' for object: %@", relationshipName, object);
+    
+    RKObjectRequestOperation *operation = [self appropriateObjectRequestOperationWithObject:nil method:RKRequestMethodGET path:[URL relativeString] parameters:parameters];
+    operation.mappingMetadata = @{ @"routing": @{ @"parameters": interpolatedParameters, @"route": route } };
+    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+      [subscriber sendNext:RACTuplePack(operation, mappingResult)];
+      [subscriber sendCompleted];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+      [subscriber sendError:error];
+    }];
+    
+    [self enqueueObjectRequestOperation:operation];
+    
+    return [RACDisposable disposableWithBlock:^{
+      [operation cancel];
+    }];
+  }];
 }
 
 @end
