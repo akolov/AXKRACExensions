@@ -19,8 +19,6 @@
 
 @implementation RKObjectManager (AXKRACExtensions)
 
-
-
 - (RACSignal *)rac_getObjectsAtPath:(NSString *)path parameters:(NSDictionary *)parameters {
   return [self rac_requestObject:nil path:path parameters:parameters method:RKRequestMethodGET];
 }
@@ -44,8 +42,6 @@
 - (RACSignal *)rac_deleteObject:(id)object path:(NSString *)path parameters:(NSDictionary *)parameters {
   return [self rac_requestObject:object path:path parameters:parameters method:RKRequestMethodDELETE];
 }
-
-
 
 - (RACSignal *)rac_requestObject:(id)object path:(NSString *)path parameters:(NSDictionary *)parameters
                           method:(RKRequestMethod)method {
@@ -73,23 +69,28 @@
   }];
 }
 
+- (RACSignal *)rac_getObjectsAtPathForRelationship:(NSString *)relationshipName ofObject:(id)object parameters:(NSDictionary *)parameters {
+  return [self rac_objectsAtPathForRelationship:relationshipName method:RKRequestMethodGET ofObject:object parameters:parameters];
+}
 
-- (RACSignal *)rac_getObjectsAtPathForRelationship:(NSString *)relationshipName
-                                          ofObject:(id)object
-                                        parameters:(NSDictionary *)parameters{
-  
+- (RACSignal *)rac_postObjectsAtPathForRelationship:(NSString *)relationshipName ofObject:(id)object parameters:(NSDictionary *)parameters {
+  return [self rac_objectsAtPathForRelationship:relationshipName method:RKRequestMethodPOST ofObject:object parameters:parameters];
+}
+
+- (RACSignal *)rac_objectsAtPathForRelationship:(NSString *)relationshipName method:(RKRequestMethod)method ofObject:(id)object parameters:(NSDictionary *)parameters{
+
   NSAssert(object || relationshipName, @"Cannot make a request without an object or a relationshipName.");
 
   @weakify(self);
   return [RACSignal createSignal:^(id<RACSubscriber> subscriber) {
     @strongify(self);
-    
-    RKRoute *route = [self.router.routeSet routeForRelationship:relationshipName ofClass:[object class] method:RKRequestMethodGET];
+
+    RKRoute *route = [self.router.routeSet routeForRelationship:relationshipName ofClass:[object class] method:method];
     NSDictionary *interpolatedParameters = nil;
     NSURL *URL = [self URLWithRoute:route object:object interpolatedParameters:&interpolatedParameters];
     NSAssert(URL, @"Failed to generate URL for relationship named '%@' for object: %@", relationshipName, object);
-    
-    RKObjectRequestOperation *operation = [self appropriateObjectRequestOperationWithObject:nil method:RKRequestMethodGET path:[URL relativeString] parameters:parameters];
+
+    RKObjectRequestOperation *operation = [self appropriateObjectRequestOperationWithObject:nil method:method path:[URL relativeString] parameters:parameters];
     operation.mappingMetadata = @{ @"routing": @{ @"parameters": interpolatedParameters, @"route": route } };
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
       [subscriber sendNext:RACTuplePack(operation, mappingResult)];
@@ -97,9 +98,9 @@
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
       [subscriber sendError:error];
     }];
-    
+
     [self enqueueObjectRequestOperation:operation];
-    
+
     return [RACDisposable disposableWithBlock:^{
       [operation cancel];
     }];

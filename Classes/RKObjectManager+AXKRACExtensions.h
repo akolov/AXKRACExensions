@@ -19,11 +19,9 @@
 - (RACSignal *)rac_patchObject:(id)object path:(NSString *)path parameters:(NSDictionary *)parameters;
 - (RACSignal *)rac_deleteObject:(id)object path:(NSString *)path parameters:(NSDictionary *)parameters;
 
-- (RACSignal *)rac_requestObject:(id)object path:(NSString *)path parameters:(NSDictionary *)parameters
-                          method:(RKRequestMethod)method;
+- (RACSignal *)rac_requestObject:(id)object path:(NSString *)path parameters:(NSDictionary *)parameters method:(RKRequestMethod)method;
 
-- (RACSignal *)rac_getObjectsAtPathForRelationship:(NSString *)relationshipName
-                                          ofObject:(id)object
-                                        parameters:(NSDictionary *)parameters;
+- (RACSignal *)rac_getObjectsAtPathForRelationship:(NSString *)relationshipName ofObject:(id)object parameters:(NSDictionary *)parameters;
+- (RACSignal *)rac_postObjectsAtPathForRelationship:(NSString *)relationshipName ofObject:(id)object parameters:(NSDictionary *)parameters;
 
 @end
