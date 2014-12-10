@@ -91,7 +91,17 @@
     NSAssert(URL, @"Failed to generate URL for relationship named '%@' for object: %@", relationshipName, object);
 
     RKObjectRequestOperation *operation = [self appropriateObjectRequestOperationWithObject:nil method:method path:[URL relativeString] parameters:parameters];
-    operation.mappingMetadata = @{ @"routing": @{ @"parameters": interpolatedParameters, @"route": route } };
+    
+    NSMutableDictionary *routingDict = [NSMutableDictionary new];
+    
+    if (interpolatedParameters) {
+      [routingDict setObject:interpolatedParameters forKey:@"parameters"];
+    }
+    if (route) {
+      [routingDict setObject:route forKey:@"route"];
+    }
+    
+    operation.mappingMetadata = @{ @"routing": routingDict };
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
       [subscriber sendNext:RACTuplePack(operation, mappingResult)];
       [subscriber sendCompleted];
