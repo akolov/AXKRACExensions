@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name            = 'AXKRACExtensions'
-  s.version         = '1.0.3'
+  s.version         = '1.0.4'
   s.summary         = 'ReactiveCocoa extensions'
   s.homepage        = 'https://github.com/silverity/AXKRACExensions'
   s.license         = 'MIT'
