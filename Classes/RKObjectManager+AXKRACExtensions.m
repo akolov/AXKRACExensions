@@ -92,7 +92,7 @@
 
     RKObjectRequestOperation *operation = [self appropriateObjectRequestOperationWithObject:nil method:method path:[URL relativeString] parameters:parameters];
     
-    NSMutableDictionary *routingDict = [NSMutableDictionary new];
+    NSMutableDictionary *routingDict = [NSMutableDictionary dictionary];
     
     if (interpolatedParameters) {
       [routingDict setObject:interpolatedParameters forKey:@"parameters"];
