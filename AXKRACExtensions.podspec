@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name            = 'AXKRACExtensions'
-  s.version         = '1.0.5'
+  s.version         = '1.0.6'
   s.summary         = 'ReactiveCocoa extensions'
   s.homepage        = 'https://github.com/silverity/AXKRACExensions'
   s.license         = 'MIT'
@@ -12,28 +12,11 @@ Pod::Spec.new do |s|
 
   s.default_subspec = 'Core'
   s.dependency 'ReactiveCocoa'
+  s.dependency 'AFNetworking', '~> 1.0'
+  s.dependency 'RestKit'
 
-  # Subspecs
-
-  s.subspec 'Core' do |cs|
-    cs.source_files = 'Classes/NSNotificationCenter+AXKRACExtensions.h'
-    cs.public_header_files 'Classes/NSNotificationCenter+AXKRACExtensions.h'
-    cs.requires_arc = true
-  end
-
-  s.subspec 'AFNetworking' do |afn|
-    afn.source_files = 'Classes/AF*'
-    afn.public_header_files = 'Classes/AF*.h'
-    afn.requires_arc = true
-    afn.dependency 'AFNetworking', '~> 1.0'
-  end
-
-  s.subspec 'RestKit' do |rk|
-    rk.source_files = 'Classes/RK*'
-    rk.public_header_files = 'Classes/RK*.h'
-    rk.requires_arc = true
-    rk.dependency 'RestKit'
-  end
+  s.source_files = 'Classes/*'
+  s.public_header_files = 'Classes/*.h'
 
   s.prefix_header_contents = <<-EOS
 @import Darwin.Availability;
