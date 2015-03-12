@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name            = 'AXKRACExtensions'
-  s.version         = '1.0.6'
+  s.version         = '1.0.7'
   s.summary         = 'ReactiveCocoa extensions'
   s.homepage        = 'https://github.com/silverity/AXKRACExensions'
   s.license         = 'MIT'
@@ -10,7 +10,6 @@ Pod::Spec.new do |s|
   s.requires_arc    = true
   s.ios.deployment_target = '7.0'
 
-  s.default_subspec = 'Core'
   s.dependency 'ReactiveCocoa'
   s.dependency 'AFNetworking', '~> 1.0'
   s.dependency 'RestKit'
